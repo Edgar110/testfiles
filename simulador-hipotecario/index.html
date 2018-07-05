@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>simulador-hipotecario</title>
+	<link rel="stylesheet" href="/assets/css/bootstrap-bundle-min.css" />
+	<link rel="stylesheet" href="/assets/css/dft-global.css" />
+	<link rel="stylesheet" href="/assets/css/dft-global-headerfooter.min.css" />
+	<script type="text/javascript" src="/recursos/js/axfTag.js"></script>
+
+</head>
+<style>
+	body {
+		background-color: #eee;
+	}
+	.border-right{
+		border-right: 1px solid #666666;
+	}
+	#amarratucasa{
+		color: #056DAE;
+		font-weight: bold;
+	}
+	@media all and (max-width: 768px){
+		ul{
+			padding-left: 0px;
+		}
+	}
+	.cat-row *{
+		text-align: center !important;
+	}
+</style>
+<body metrics-initial>
+<header id="main-header" class="dft-content-main"></header>
+	<section class="container-fluid bg-greyLight">
+		<section class="sectionM dft-simulador-hipotecario"  data-section="Simulador">
+			<div class="col-xs-12">
+				<div class="row">
+					<div class="col-sm-4 col-xs-12 dft-simulador-hipotecario__container xs-pd-left-20 lg-pd-left-20 xs-pd-right-20 lg-pd-right-20">
+						<section class="col-xs-12" id="sec1">
+							<div class="row">
+								<p class="hipotecario-topic">¿Qué deseo hacer?</p>
+							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<div class="row xs-pd-right-10 xs-pd-top-10 xs-pd-bottom-20 lg-pd-right-10 lg-pd-top-10 lg-pd-bottom-20  ">
+										<button id="dec1" class="btn btn-default form-control dft-button-round active-button" metrics-interaction="|Simulador|TipoCalculo|Comprar">Comprar
+											<br/>mi casa</button>
+									</div>
+								</div>
+								<div class="col-xs-6">
+									<div class="row xs-pd-left-10 xs-pd-bottom-20 xs-pd-top-10 lg-pd-left-10 lg-pd-bottom-20 lg-pd-top-10">
+										<button id="dec2" class="btn btn-default form-control dft-button-round" metrics-interaction="|Simulador|TipoCalculo|Cambiar">Cambiar
+											<br/>mi hipoteca</button>
+									</div>
+								</div>
+							</div>
+						</section>
+						<section id="pagos">
+							<div class="col-xs-12">
+								<div class="row">
+									<p class="hipotecario-topic">¿Cómo deseo mi pago?</p>
+								</div>
+								<div class="row">
+									<div class="col-xs-6">
+										<div class="row xs-pd-right-10 xs-pd-top-10 xs-pd-bottom-20 lg-pd-right-10 lg-pd-top-10 lg-pd-bottom-20  ">
+											<button id="pfijos" class="btn btn-default form-control dft-button-round active-button pagos">Pagos
+												<br/>Fijos</button>
+										</div>
+									</div>
+									<div class="col-xs-6">
+										<div class="row xs-pd-left-10 xs-pd-bottom-20 xs-pd-top-10 lg-pd-left-10 lg-pd-bottom-20 lg-pd-top-10">
+											<button id="pcrecientes" class="btn btn-default form-control dft-button-round pagos" metrics-interaction="|Simulador|TipoPago|Crecientes">Pagos
+												<br/>Crecientes</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+						<section id="sec2">
+							<div class="col-xs-12">
+								<div class="row">
+									<p class="hipotecario-topic">Quiero calcular mi crédito sobre:</p>
+								</div>
+								<div class="row">
+									<div class="col-xs-6">
+										<div class="row xs-pd-right-10 xs-pd-top-10 xs-pd-bottom-20 lg-pd-right-10 lg-pd-top-10 lg-pd-bottom-20  ">
+											<button id="vvivienda" class="btn btn-default form-control dft-button-round active-button">Valor
+												<br/>de la vivienda</button>
+										</div>
+									</div>
+									<div class="col-xs-6">
+										<div class="row xs-pd-left-10 xs-pd-bottom-20 xs-pd-top-10 lg-pd-left-10 lg-pd-bottom-20 lg-pd-top-10">
+											<button id="mcredito" class="btn btn-default form-control dft-button-round" metrics-interaction="|Simulador|TipoCalculo|MontoCredito">Monto
+												<br/>de crédito</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+						<section class="col-xs-12" id="chipoteca" style="display:none">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="row">
+										<p class="hipotecario-topic">¿Cuánto resta de tu crédito actual?</p>
+									</div>
+									<div class="row xs-pd-bottom-20 lg-pd-bottom-20">
+										<div class="input-group" style="display:none">
+											<input value="300000" id="restaCredito" class="form-control dft-simulador-hipotecario__input" type="text" maxlength="10">
+											<div class="input-group-addon">MXN</div>
+										</div>
+										<div class="input-group porcentaje_fin_0 erroradd">
+											<input value="$300,000" id="restaCredito_txt" class="form-control dft-simulador-hipotecario__input" type="text">
+											<div class="input-group-addon">MXN</div>
+										</div>
+										<div class="colxs-12">
+											<label class="success restaCredito label-text">El valor min. es $300,000 y el max. es $10,000,000</label>
+										</div>
+										<div class="colxs-12">
+											<label id="valormayor_fin" class="success">El valor de tu casa debe ser mayor a lo que resta de tu crédito actual</label>
+										</div>
+										<div class="colxs-12">
+											<label id="porcentaje_fin_0" class="success porcentaje_fin">El porcentaje de financiamiento debe ser menor a 85%</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12">
+									<div class="row">
+										<p class="hipotecario-topic">Valor aproximado de su vivienda</p>
+									</div>
+									<div class="row xs-pd-bottom-20 lg-pd-bottom-20">
+										<div class="input-group" style="display:none">
+											<input id="valorAprox" value="500000" class="form-control dft-simulador-hipotecario__input" type="text" maxlength="10">
+											<div class="input-group-addon">MXN</div>
+										</div>
+										<div class="input-group erroradd porcentaje_fin_1">
+											<input value="$500,000" id="valorAprox_txt" class="form-control dft-simulador-hipotecario__input" type="text" maxlength="10">
+											<div class="input-group-addon">MXN</div>
+										</div>
+										<div class="colxs-12">
+											<label class="valorAprox label-text success">El valor min. es $500,000 y el max. es $15,000,000</label>
+										</div>
+										<div class="colxs-12">
+											<label id="porcentaje_fin_1" class="success porcentaje_fin">El porcentaje de financiamiento debe ser menor a 85%</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+						<section class="col-xs-12" id="sec3">
+							<div class="row">
+								<div class="col-xs-12" id="ivivienda">
+									<div class="row">
+										<p class="hipotecario-topic">El valor de la vivienda es:</p>
+									</div>
+									<div class="row xs-pd-bottom-20 lg-pd-bottom-20">
+										<div class="input-group" style="display:none">
+											<input value="500000" id="slider_valorCasa" class="form-control dft-simulador-hipotecario__input value_valorPrestamo" type="text" maxlength="10">
+											<div class="input-group-addon">MXN</div>
+										</div>
+										<div class="input-group">
+											<input value="$500,000" id="slider_valorCasa_txt" class="form-control dft-simulador-hipotecario__input" type="text">
+											<div class="input-group-addon">MXN</div>
+										</div>
+										<div class="colxs-12">
+											<label class="success slider_valorCasa label-text">El valor min. es $500,000 y el max. es $15,000,000</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12" id="imonto" style="display:none">
+									<div class="row">
+										<p class="hipotecario-topic">¿Cuánto necesitas que te prestemos?</p>
+									</div>
+									<div class="row xs-pd-bottom-20 lg-pd-bottom-20">
+										<div class="input-group" style="display:none">
+											<input value="300000" id="slider_montoCredito" class="form-control dft-simulador-hipotecario__input" type="text" maxlength="10">
+											<div class="input-group-addon">MXN</div>
+										</div>
+										<div class="input-group">
+											<input value="$300,000" id="slider_montoCredito_txt" class="form-control dft-simulador-hipotecario__input" type="text"/>
+											<div class="input-group-addon">MXN</div>
+										</div>
+										<div class="colxs-12">
+											<label class="success slider_montoCredito label-text">El valor min. es $300,000 y el max. es $10,000,000</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12" id="ienganche">
+									<div class="row">
+										<p class="hipotecario-topic">¿Qué enganche tengo?</p>
+									</div>
+									<div class="row xs-pd-bottom-20 lg-pd-bottom-20">
+										<select class="form-control dft-simulador-hipotecario__input" name="" id="enganche">
+											<option value=".15">15%</option>
+											<option value=".25">25%</option>
+											<option value=".35">35% o más</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</section>
+						<section class="col-xs-12" id="itiempo">
+							<div class="row">
+								<p class="hipotecario-topic">¿En cuánto tiempo lo quiero pagar?</p>
+							</div>
+							<div class="row">
+								<div class="col-xs-4">
+									<div class="row xs-pd-right-5 xs-pd-top-10 lg-pd-right-5 lg-pd-top-10">
+										<button data-time="10" class="btn btn-default form-control dft-button-round time">10 años</button>
+									</div>
+								</div>
+								<div class="col-xs-4">
+									<div class="row xs-pd-left-5 xs-pd-right-5 xs-pd-top-10 lg-pd-left-5 lg-pd-right-5 lg-pd-top-10">
+										<button data-time="15" class="btn btn-default form-control dft-button-round time">15 años</button>
+									</div>
+								</div>
+								<div class="col-xs-4">
+									<div class="row xs-pd-left-5 xs-pd-top-10 lg-pd-left-5 lg-pd-top-10">
+										<button data-time="20" class="btn btn-default form-control dft-button-round time active-button">20 años</button>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<hr class="hr-1">
+							</div>
+							<div class="colxs-12">
+								<label class="success error_continue">Para continuar es necesario ajustar la información anterior.</label>
+							</div>
+						</section>
+						<section>
+							<div class="col-xs-12" id="mitasa" >
+								<div class="row" >
+									<p class="pull-left">Quiero Amarrar mi tasa por 12 meses</p>
+									<div class="pull-right">
+										<label class="dft-switch">
+											<input id="swmitasa" class="dft-switch__input" type="checkbox">
+											<div class="dft-switch__slider round"></div>
+										</label>
+									</div>
+								</div>
+								<div class="row">
+									<hr class="hr-1">
+								</div>
+							</div>
+							<div class="col-xs-12" id="linfonavit">
+								<div class="row">
+									<p class="hipotecario-topic">Quiero aprovechar mi ahorro
+										<br/>de vivienda con:</p>
+								</div>
+								<div class="row">
+									<hr class="hr-1">
+								</div>
+							</div>
+							<div class="col-xs-12">
+								<div class="row" id="cinfonavit">
+									<p class="pull-left">INFONAVIT</p>
+									<div class="pull-right">
+										<label class="dft-switch">
+											<input id="chkinfonavit" class="dft-switch__input" type="checkbox">
+											<div class="dft-switch__slider round"></div>
+										</label>
+									</div>
+								</div>
+								<div class="row">
+									<div id="binfonavit" style="display:none" class="col-xs-12 dft-simulador-hipotecario__container-bg xs-mr-bottom-20">
+										<div class="col-xs-12">
+											<div class="xs-pd-top-20 lg-pd-top-20">
+												<div class="row">
+													<p class="pull-left">COFINAVIT</p>
+													<div class="pull-right">
+														<label class="dft-switch">
+															<input id="cofinavit" value="Cofinavit" name="apoyoInfonavit_tipo" class="dft-switch__input" type="checkbox">
+															<div class="dft-switch__slider round"></div>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="row" id="bconfinavit" style="display:none">
+												<p class="xs-pd-top-5 lg-pd-top-5">Crédito Infonavit:</p>
+												<div class="input-group">
+													<input name="cred_info" onkeyup="vMoment.mascara('dinero',this)" class="dinero form-control dft-simulador-hipotecario__input" type="text" placeholder="0" maxlength="15">
+													<div class="input-group-addon">MXN</div>
+												</div>
+												<p class="xs-pd-top-5 lg-pd-top-5">Saldo en subcuenta:</p>
+												<div class="input-group">
+													<input name="saldoSub_info" onkeyup="vMoment.mascara('dinero',this)" class="dinero form-control dft-simulador-hipotecario__input" type="text" placeholder="0" maxlength="15">
+													<div class="input-group-addon">MXN</div>
+												</div>
+												<p class="xs-pd-top-5 lg-pd-top-5">Gastos de titulación:</p>
+												<div class="input-group">
+													<input name="gastosTitu_info" class="form-control dft-simulador-hipotecario__input dinero" onkeyup="vMoment.mascara('dinero',this)" type="text" placeholder="0" maxlength="15">
+													<div class="input-group-addon">MXN</div>
+												</div>
+												<p class="xs-pd-top-5 lg-pd-top-5">Descuento mensual del crédito:</p>
+												<div class="input-group">
+													<input name="pagoMen_info" onkeyup="vMoment.mascara('dinero',this)" class="dinero form-control dft-simulador-hipotecario__input" type="text" placeholder="0" maxlength="15">
+													<div class="input-group-addon">MXN</div>
+												</div>
+												<p class="xs-pd-top-10 lg-pd-top-10">Si no cuentas con ésta información realiza la consulta en
+													<span class="dft-simulador-hipotecario__link dft-tooltip-out" data-tooltip='{"metrica":"s.tl(this,\"o\",\"MX|Personas|SimuladorHipotecario|index-TextoBottom-04052018-Information-irInfonavit\"+device)", "name": "INFONAVIT", "link": "http://portal.infonavit.org.mx/wps/wcm/connect/infonavit/inicio", "target":"_blank", "direction":"top"}'>
+														<button class="iframe-tooltip">INFONAVIT.</button>
+													</span>
+												</p>
+												<div class="col-xs-12 xs-pd-top-20 lg-pd-top-20">
+													<div class="row dft-button  ">
+														<a href="javascript:void(0)" onclick="simulador.simular();" metrics-interaction="|Simulador|ApoyoInfonavit|Cofinavit|AplicarCalculos" class="dft-button__link" target="">Aplicar</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12">
+											<div class="row">
+												<hr class="hr-1 xs-pd-right-0 lg-pd-right-0">
+											</div>
+										</div>
+										<div class="col-xs-12 ">
+											<div class="xs-pd-bottom-10 lg-pd-bottom-10">
+												<div class="row">
+													<p class="pull-left">APOYO INFONAVIT</p>
+													<div class="pull-right">
+														<label class="dft-switch">
+															<input value="Infonavit" class="dft-switch__input" id="infonavit" name="apoyoInfonavit_tipo" type="checkbox">
+															<div class="dft-switch__slider round"></div>
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12">
+											<div class="row">
+												<hr class="hr-1 xs-pd-right-0 lg-pd-right-0 xs-mr-top-0">
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12" id="cfovisste">
+										<div class="row">
+											<p class="pull-left">FOVISSSTE</p>
+											<div class="pull-right">
+												<label class="dft-switch">
+													<input id="apoyoFovissste" class="dft-switch__input" type="checkbox">
+													<div class="dft-switch__slider round"></div>
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 dft-simulador-hipotecario__container-bg" id="bfovisste">
+										<div class="col-xs-12">
+											<div class="xs-pd-top-20 lg-pd-top-20" style="display:none" id="Salia2">
+												<div class="row">
+													<p class="pull-left">ALIA2</p>
+													<div class="pull-right">
+														<label class="dft-switch">
+															<input name="apoyoFovissste_tipo" value="Alia2" class="dft-switch__input" id="Alia2" type="checkbox">
+															<div class="dft-switch__slider round"></div>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="row" id="balia2" style="display:none">
+												<p class="xs-pd-top-5 lg-pd-top-5">Capacidad máxima de crédito:</p>
+												<div class="input-group">
+													<input name="capMAxCred_infosss" onkeyup="vMoment.mascara('dinero',this)" class="clean dinero form-control dft-simulador-hipotecario__input" type="text" maxlength="15">
+													<div class="input-group-addon">MXN</div>
+												</div>
+												<p class="xs-pd-top-5 lg-pd-top-5">Saldo en subcuenta:</p>
+												<div class="input-group">
+													<input name="saldoSub_infosss" class="clean form-control dft-simulador-hipotecario__input dinero" onkeyup="vMoment.mascara('dinero',this)" type="text" maxlength="15">
+													<div class="input-group-addon">MXN</div>
+												</div>
+												<p class="xs-pd-top-5 lg-pd-top-5">Pago mensual del crédito:</p>
+												<div class="input-group">
+													<input onkeyup="vMoment.mascara('dinero',this)" name="pagoMen_infosss" class="clean dinero form-control dft-simulador-hipotecario__input" type="text" maxlength="15">
+													<div class="input-group-addon">MXN</div>
+												</div>
+												<p class="xs-pd-top-10 lg-pd-top-10">Si no cuentas con ésta información realiza la consulta en <span class="dft-simulador-hipotecario__link dft-tooltip-out" data-tooltip='{"metrica":"s.tl(this,\"o\",\"MX|Personas|SimuladorHipotecario|index-TextoBottom-04052018-Information-irFovisssteAlia2\"+device)", "name": "FOVISSSTE", "link": "http://www.gob.mx/fovissste", "target":"_blank", "direction":"top"}'><button class="iframe-tooltip">FOVISSSTE.</button></span>
+												</p>
+												<div class="col-xs-12 xs-pd-top-20  lg-pd-top-20">
+													<div class="row dft-button  ">
+														<a href="javascript:void(0)" onclick="simulador.simular();" metrics-interaction="|Simulador|ApoyoFovissste|Alia2|AplicarCalculos" class="dft-button__link" target="">Aplicar</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12">
+											<div class="row">
+												<hr class="hr-1 xs-pd-right-0 lg-pd-right-0 ">
+											</div>
+										</div>
+										<div class="col-xs-12 ">
+											<div class="xs-pd-bottom-10" id="Srespalda2" style="display:none">
+												<div class="row">
+													<p class="pull-left">RESPALDA2</p>
+													<div class="pull-right">
+														<label class="dft-switch">
+															<input id="Respalda2" value="Respalda2" name="apoyoFovissste_tipo" class="dft-switch__input" type="checkbox">
+															<div class="dft-switch__slider round"></div>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="row" id="brespalda2" style="display:none">
+												<p class="xs-pd-top-5 lg-pd-top-5">Saldo en subcuenta:</p>
+												<div class="input-group">
+													<input name="saldoSub_infosss2" onkeyup="vMoment.mascara('dinero',this)" class="clean dinero form-control dft-simulador-hipotecario__input" type="text" maxlength="15">
+													<div class="input-group-addon">MXN</div>
+												</div>
+												<p class="xs-pd-top-10">Si no cuentas con ésta información realiza la consulta en
+
+												<span class="dft-simulador-hipotecario__link dft-tooltip-out" data-tooltip='{"metrica":"s.tl(this,\"o\",\"MX|Personas|SimuladorHipotecario|index-TextoBottom-04052018-Information-irFovissste\"+device)", "name": "FOVISSSTE", "link": "http://www.gob.mx/fovissste", "target":"_blank", "direction":"top"}'>
+														<button class="iframe-tooltip">FOVISSSTE.</button>
+													</span></p>
+												<div class="col-xs-12 xs-pd-top-20 xs-pd-bottom-20 lg-pd-top-20 lg-pd-bottom-20">
+													<div class="row dft-button  ">
+														<a href="javascript:void(0)" onclick="simulador.simular();" metrics-interaction="|Simulador|ApoyoFovissste|Respalda2|AplicarCalculos" class="dft-button__link" target="">Aplicar</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+					<section class="col-lg-8 col-xs-12">
+						<div class="col-xs-12 col-md-4 color-border-top xs-pd-bottom-20 lg-pd-bottom-20">
+							<p class="dft-simulador-hipotecario__title xs-pd-top-20 lg-pd-top-20">Mi casa debería costar:</p>
+							<p class="dft-simulador-hipotecario__title-b value_valorVivienda">$ 500,000.00</p>
+						</div>
+						<div class="col-xs-12 col-md-4 color-border-top-m xs-pd-bottom-20 lg-pd-bottom-20">
+							<p class="dft-simulador-hipotecario__title xs-pd-top-20 lg-pd-top-20">Citibanamex me presta:</p>
+							<p class="dft-simulador-hipotecario__title-b value_valorPrestamo">$ 500,000.00</p>
+						</div>
+						<div class="col-xs-12 col-md-4 color-border-top-f xs-pd-bottom-20 lg-pd-bottom-20">
+							<p class="dft-simulador-hipotecario__title xs-pd-top-20 lg-pd-top-20">Plazo</p>
+							<p class="dft-simulador-hipotecario__title-b value_tiempoApagar">$ 500,000.00</p>
+						</div>
+						<div class="col-xs-12 color-border-top-f xs-pd-bottom-20 lg-pd-bottom-20">
+							<div class="col-xs-6 col-md-3 xs-pd-top-20 lg-pd-top-20">
+								<div class="row">
+									<p>Ingresos requeridos</p>
+									<p class="dft-simulador-hipotecario__text value_ingresoRequerido">$ 15,000.00</p>
+								</div>
+							</div>
+							<div class="col-xs-6 col-md-3 xs-pd-top-20 lg-pd-top-20">
+								<div class="row">
+									<p>% de financiamiento</p>
+									<p class="dft-simulador-hipotecario__text value_porcentFinanciamiento">85.00%</p>
+								</div>
+							</div>
+							<div class="col-xs-6 col-md-3 xs-pd-top-20 lg-pd-top-20">
+								<div class="row">
+									<p>Tasa de interés anual fija</p>
+									<p class="dft-simulador-hipotecario__text value_tasaInteresAnual">10.00%</p>
+								</div>
+							</div>
+							<div class="col-xs-6 col-md-3 xs-pd-top-20 lg-pd-top-20">
+								<div class="row">
+									<p>CAT sin IVA</p>
+									<p class="dft-simulador-hipotecario__text value_CAT"><span>11.9%</span></p>
+								</div>
+							</div>
+						</div>
+						<div id="seccionValueAyudaCredinfo" style="display:none">
+							<div class="col-xs-12 xs-pd-left-0 xs-pd-top-20 lg-pd-top-20">
+								<p class="dft-simulador-hipotecario__title xs-pd-top-20 pull-left xs-pd-right-10">Con tu crédito Infonavit, contarías con:</p>
+								<p class="dft-simulador-hipotecario__title-b xs-pd-top-20 xs-pd-left value_contariasCon">$ 500,000.00</p>
+							</div>
+							<div class="col-xs-12 color-border-top-f xs-pd-bottom-30 lg-pd-bottom-20 lg-pd-bottom-30">
+								<div class="col-xs-6 col-ms-3 xs-pd-top-20 lg-pd-top-20">
+									<div class="row">
+										<p>Crédito Infonavit</p>
+										<p class="dft-simulador-hipotecario__text value_creditoInfonavit">$ 500,000.00</p>
+									</div>
+								</div>
+								<div class="col-xs-6 col-ms-3 xs-pd-top-20 lg-pd-top-20">
+									<div class="row">
+										<p>Saldo en subcuenta</p>
+										<p class="dft-simulador-hipotecario__text value_saldoSubcuenta">$ 500,000.00</p>
+									</div>
+								</div>
+								<div class="col-xs-6 col-ms-3 xs-pd-top-20 lg-pd-top-20">
+									<div class="row">
+										<p>Gastos de titulación</p>
+										<p class="dft-simulador-hipotecario__text value_gastoTitulacion">$ 500,000.00</p>
+									</div>
+								</div>
+								<div class="col-xs-6 col-ms-3 xs-pd-top-20 lg-pd-top-20">
+									<div class="row">
+										<p>Pago mensual del crédito</p>
+										<p class="dft-simulador-hipotecario__text value_pagoMenAyudaCred">$ 500,000.00</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div style="display:none" id="seccionValueAyudaCred">
+							<div class="col-xs-12 xs-pd-left-0 xs-pd-top-20 lg-pd-top-20">
+								<p class="dft-simulador-hipotecario__title xs-pd-top-20 pull-left xs-pd-right-10">Con tu crédito Fovissste, contarías con:</p>
+								<p class="dft-simulador-hipotecario__title-b xs-pd-top-20 xs-pd-left value_contariasCon">$ 500,000.00</p>
+							</div>
+							<div class="col-xs-12 color-border-top-f xs-pd-bottom-30 lg-pd-bottom-20 lg-pd-bottom-30">
+								<div class="col-xs-6 col-ms-3 xs-pd-top-20 lg-pd-top-20">
+									<div class="row">
+										<p>Crédito Fovissste</p>
+										<p class="dft-simulador-hipotecario__text value_creditoInfovissste">$ 500,000.00</p>
+									</div>
+								</div>
+								<div class="col-xs-6 col-ms-3 xs-pd-top-20 lg-pd-top-20">
+									<div class="row">
+										<p>Saldo en subcuenta</p>
+										<p class="dft-simulador-hipotecario__text value_saldoSubcuenta">$ 500,000.00</p>
+									</div>
+								</div>
+								<div class="col-xs-6 col-ms-3 xs-pd-top-20 lg-pd-top-20">
+									<div class="row">
+										<p>Pago mensual del crédito</p>
+										<p class="dft-simulador-hipotecario__text value_pagoMenAyudaCred">$ 500,000.00</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-6 xs-pd-bottom-30 lg-pd-bottom-0 lg-pd-bottom-30">
+							<div class="col-xs-12 lg-pd-right-30 xs-pd-right-5 xs-pd-left-5 xs-pd-bottom-20 lg-pd-right-5 lg-pd-left-5 lg-pd-bottom-20">
+								<p class="pull-left dft-simulador-hipotecario__title-bG">Gasto inicial total:</p>
+								<p class="pull-right dft-simulador-hipotecario__title-bG value_gastoInicial">$ 102,250.00</p>
+							</div>
+							<table class="table table-striped">
+								<tbody>
+									<tr>
+										<td>Comisión de apertura</td>
+										<td class="text-right value_comisionApertura">$ 4,250.00</td>
+									</tr>
+									<tr>
+										<td>Estudio socioeconómico</td>
+										<td class="text-right value_estudioSocioeconomico">SIN COSTO</td>
+									</tr>
+									<tr>
+										<td>Avalúo (Incluye IVA)</td>
+										<td class="text-right value_avaluo">$ 3,000.00</td>
+									</tr>
+									<tr>
+										<td>Enganche desde</td>
+										<td class="text-right value_enganche">$ 75,000.00</td>
+									</tr>
+									<tr>
+										<td>Gastos notariales</td>
+										<td class="text-right value_gastosNotariales">$ 20,000.00</td>
+									</tr>
+									<tr id="amarratucasa" style="display:none">
+										<!--Cambios alfredo-->
+										<td>Costo Certificado Amarra tu Tasa</td>
+										<td  class="text-right value_amarra">$ 20,000.00</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="col-xs-12 col-md-6 sm-pd-right-0 lg-pd-right-0">
+							<div class="col-xs-12 xs-pd-right-5 xs-pd-left-5 xs-pd-bottom-20 lg-pd-right-5 lg-pd-left-5 lg-pd-bottom-20">
+								<p class="pull-left dft-simulador-hipotecario__title-bG">Pago mensual total:</p>
+								<p class="pull-right dft-simulador-hipotecario__title-bG value_pagoTotalMensual">$4,433.84</p>
+							</div>
+							<table class="table table-striped">
+								<tbody>
+									<tr>
+										<td>Pago mensual del crédito</td>
+										<td class="text-right value_mensualidadCredito">$ 4,101.34</td>
+									</tr>
+									<tr>
+										<td>Seguro de Vida</td>
+										<td class="text-right value_seguroVida">$ 212.50</td>
+									</tr>
+									<tr>
+										<td>Seguro de daños</td>
+										<td class="text-right value_seguroDanios">$ 120.00</td>
+									</tr>
+									<tr>
+										<td>Comisión de administración</td>
+										<td class="text-right value_comisionAdministracion">SIN COSTO</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="col-xs-12 xs-pd-right-0 lg-pd-right-0">
+							<hr class="hr-3">
+						</div>
+						<div class="col-xs-12 xs-pd-top-20 xs-pd-bottom-20 lg-pd-top-20 lg-pd-bottom-20">
+							<div class="col-md-4 col-md-offset-4 col-xs-8 col-xs-offset-2 ">
+								<div class="row dft-button  ">
+									<button href="javascript:void(0)" class="dft-button__link meInteresa" onclick="window.parent.$('#meInteresaModal').modal('show');">Solicita asesoría</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="row dft-info">
+								<div class="col-xs-12 dft-info__wrap">
+									<a id="tabla-amortizacion" href="javascript:void(0)" onclick="amortizacion.open();" class="dft-info__link">
+										<p class="dft-info__link-text">Ver tabla de amortización</p>
+										<span class="dft-icon-arrow-right dft-info__link-icon"></span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 xs-pd-top-40 xs-pd-left-0 xs-pd-right-0 xs-pd-bottom-40 lg-pd-top-40 lg-pd-left-0 lg-pd-right-0 lg-pd-bottom-40">
+							<div class="dft-box-iconText__wrap">
+								<div class="list-unstyled dft-box-iconText__wrap-content">
+									<div class="wrap-content__item">
+										<span class="dft-icon-pointer"></span>
+										<ul class="wrap-content__item-text xs-mr-top-10 lg-mr-top-10 xs-mr-left-20 xs-mr-right-20 md-mr-left-0">
+											<li class="xs-pd-bottom-5">
+												Recuerda que también puedes usar Infonavit y Fovissste
+											</li>
+											<li>
+												Suma tus ingresos con los de tu pareja e incrementa tu línea de crédito.
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+		</section>
+		<div class="row xs-mr-bottom-20">
+			<div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+				<div class="row dft-button  center">
+					<a id="botonex" href="/es/personas/creditos/credito-hipotecario.html" class="dft-button__link" target="_self">Regresar a experiencia</a>
+				</div>
+			</div>
+		</div>
+		<div class="dft-contain">
+			<div class="sectionM terminos" style="padding-bottom: 15px;" data-section="Legales" section-index="3">
+
+					<p class="dft-simulador-hipotecario text-legal">Los gastos notariales pueden variar dependiendo de la ubicación geográfica y del valor de la vivienda. La información obtenida es únicamente para efectos ilustrativos, por lo que no implica obligación ni compromiso por parte del Banco Nacional de México, S.A. El presente documento no constituye una oferta vinculante y no forma parte integral del contrato de apertura de crédito con garantía hipotecaria y su respectiva carátula. La información del producto y políticas de crédito contenidas en el simulador están sujetas a cambios sin previo aviso. La autorización del crédito es una facultad discrecional del Banco Nacional de México, S.A. por lo que se reserva el derecho de otorgarla o negarla.</p>
+
+					<div id="modLegal" class="row" style="padding: 15px 0px;">
+						<div class="col-sm-3 col-xs-12 border-right">
+							<p class="dft-simulador-hipotecario text-legal" style="text-align: right !important;"><span style="color: #666666; font-size: 1.1em; letter-spacing: 0; font-weight: bold; font-family: IB, sans-serif;"> <strong>Costo Anual<br>Total (CAT)<br>PROMEDIO: </strong></span></p>
+						</div>
+
+						<div class="col-sm-3 col-xs-12 border-right">
+							<p class="dft-simulador-hipotecario text-legal"><span style="color: #666666; font-size: 1.1em; letter-spacing: 0; font-weight: bold; font-family: IB, sans-serif;">12.0% sin IVA</span></p>
+							<p class="dft-simulador-hipotecario text-legal" style="text-align: left !important;"><span id="descTab" style="display: none;"></span>Aplica para Adquisición (Pagos Fijos).</p>
+							<p class="dft-simulador-hipotecario text-legal" style="text-align: left !important;">Con una tasa fija de interés anual de <span style="color: #666666; font-size: 1.1em; letter-spacing: 0; font-weight: bold; font-family: IB, sans-serif;">9.99%</span></p>
+						</div>
+
+						<div class="col-sm-3 col-xs-12 border-right">
+							<p class="dft-simulador-hipotecario text-legal"><span style="color: #666666; font-size: 1.1em; letter-spacing: 0; font-weight: bold; font-family: IB, sans-serif;">11.7% sin IVA</span></p>
+							<p class="dft-simulador-hipotecario text-legal" style="text-align: left !important;">Aplica para Cambia tu Hipoteca (Pagos Fijos).</p>
+							<p class="dft-simulador-hipotecario text-legal" style="text-align: left !important;">Con una tasa fija de interés anual de <span style="color: #666666; font-size: 1.1em; letter-spacing: 0; font-weight: bold; font-family: IB, sans-serif;">9.75%</span></p>
+						</div>
+
+						<div class="col-sm-3 col-xs-12">
+							<p class="dft-simulador-hipotecario text-legal"><span style="color: #666666; font-size: 1.1em; letter-spacing: 0; font-weight: bold; font-family: IB, sans-serif;">12.5% sin IVA</span></p>
+							<p class="dft-simulador-hipotecario text-legal" style="text-align: left !important;">Aplica para Adquisición (Pagos Crecientes).</p>
+							<p class="dft-simulador-hipotecario text-legal" style="text-align: left !important;">Con una tasa fija de interés anual de <span style="color: #666666; font-size: 1.1em; letter-spacing: 0; font-weight: bold; font-family: IB, sans-serif;">10.50%</span></p>
+						</div>
+
+						<p style="display: none;">Aplica para <span id="descTab_">Perfiles Banamex.</span></p>
+
+						<script>
+							var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+							var f = new Date();
+							//document.write("Calculado mayo de 2017 ");
+						</script>
+					</div>
+
+					<p class="dft-simulador-hipotecario text-legal">
+						Informativo. Fecha de cálculo julio de 2018, oferta vigente al 31 de diciembre de 2018. Es tu derecho innegable contratar los productos y servicios adicionales o ligados a este crédito con un tercero independiente. Consulta condiciones, comisiones y requisitos de contratación en <a href="/">www.citibanamex.com</a> Es tu derecho solicitar la oferta vinculante para comparar distintas opciones de crédito.
+					</p>
+
+					<span id="avaluoLegal" style="display:none;">
+						*El avalúo se hace con una Unidad de Valuación Externa, NO depende de Citibanamex. El costo reflejado es un valor aproximado y depende de la Unidad de Valuación.
+					</span>
+			</div>
+		</div>
+		<span class="title_span_left" style="display:none" id="descTitle"></span><span style="display:none" class="title_span_left" id="tituloPrincipal">Hipoteca Banamex</span>
+	</section>
+	<footer id="main-footer" class="dft-footer-nav v2">
+	</footer>
+<span class="dft-tooltip-out__content">
+	<span class="tooltip-out">
+		<p class="tooltip-out__text title legal" style="display: none;"></p>
+		<p class="tooltip-out__text title">Estás saliendo de citibanamex.com para entrar al sitio de <span class="external">Facebook</span></p>
+		<p class="tooltip-out__text">Entrarás a un sitio web ajeno a Citibanamex, el cual es responsable de sus propios contenidos y mantiene su política de privacidad y seguridad.</p>
+		<div class="tooltip-out__text topic">
+			<div class="row dft-info center   ">
+				<div class="col-xs-12 dft-info__wrap">
+					<a href="#" class="dft-info__link">
+						<p class="dft-info__link-text">Continuar</p>
+						<span class="dft-icon-arrow-right dft-info__link-icon"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<span class="dft-icon-close-fill"></span>
+	</span>
+</span>
+
+
+	<script src="/assets/js/bootstrap-bundle-min.js"></script>
+	<script src="/assets/js/dft-global-functions.js"></script>
+	<script src="/recursos/js/mx_citi_s_code_v2.js" type="text/javascript"></script>
+	<script src="js/general.js"></script>
+    <script src="js/simulaAddCache.js"></script>
+	<script src="js/newsimulador.js"></script>
+	<script type="text/javascript" src="/assets/js/dft-main-menufooter.js"></script>
+	<script src="/assets/js/library_metrics.js"></script>
+	<script>
+	  var requestAI = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+	   window.requestAnimationFrame = requestAI ;
+
+	footerExist = function(){
+		if(!document.querySelectorAll('#main-footer .dft-footer-nav__content').length){
+			'use strict';
+var dft_tooltip_out = {
+	init: function init() {
+		if (document.querySelectorAll('.dft-tooltip-out').length) {
+			var tooltip = document.querySelectorAll('.dft-tooltip-out');
+			for (var i = 0; i < tooltip.length; i++) {
+				this.load(tooltip[i]);
+			}
+		}
+	},
+	load: function load(el) {
+		var too = {
+			tooltip: document.querySelector('.dft-tooltip-out__content'),
+			options: JSON.parse(el.dataset.tooltip),
+			device: navigator.userAgent.match(/iPhone|iPad|iPod|Android/i),
+			vp: {
+				web: window.innerWidth > 992 ? true : false,
+				mobile: window.innerWidth <= 992 ? true : false
+			},
+
+			clone: '',
+			_initialize: function _initialize() {
+				this._validateDevice();
+			},
+			_validateDevice: function _validateDevice() {
+				if (this.vp.mobile) {
+					this._buildOverlay();
+					this._mobileEvents();
+					this._cloneTooltip();
+				} else {
+					this._mouseEvents();
+				}
+			},
+			_buildOverlay: function _buildOverlay() {
+				if (!document.querySelectorAll('.tooltip-out__overlay').length) {
+					var tooOverlay = document.createElement('div');
+					tooOverlay.className = "tooltip-out__overlay";
+					document.getElementsByTagName("body")[0].appendChild(tooOverlay);
+				}
+			},
+			_destroyOverlay: function _destroyOverlay() {
+				if (document.querySelectorAll('.tooltip-out__overlay').length) {
+					document.querySelector('.tooltip-out__overlay').remove();
+				}
+			},
+			_mobileEvents: function _mobileEvents() {
+				el.addEventListener("click", function(e) {
+					e.preventDefault();
+					too._start();
+				}, false);
+			},
+			_mouseEvents: function _mouseEvents() {
+				el.addEventListener("click", function(e) {
+					if( $(this).parents(".dft-image-full").length){
+						$(this).parents(".dft-image-full").css("overflow","visible");
+					}
+					if (($(e.target).parents().eq(1).hasClass('dft-tooltip-out') || $(e.target).parents().eq(0).hasClass('dft-tooltip-out')) && !this.querySelectorAll('.dft-tooltip-out__content').length && document.querySelector('.dft-tooltip-out .dft-tooltip-out__content') !== null) {
+						too._removeChildrenIE(document.querySelector('.dft-tooltip-out .dft-tooltip-out__content').parentElement);
+						too._setTooltip(false);
+						too._open(e);
+					} else if (($(e.target).parents().eq(1).hasClass('dft-tooltip-out') || $(e.target).parents().eq(0).hasClass('dft-tooltip-out')) && !this.querySelectorAll('.dft-tooltip-out__content').length) {
+						too._setTooltip(false);
+						too._open(e);
+					}
+				}, false);
+			},
+			_start: function _start(event) {
+				var _this = this;
+				if (!el.classList.contains('tooltip-lg')) {
+					document.body.querySelector('.dft-tooltip-out__content').innerHTML = this.clone;
+					this._setTooltip(true);
+				} else if (el.classList.contains('tooltip-lg')) {
+					document.body.querySelector('.dft-tooltip-out__content').innerHTML = '';
+					document.body.querySelector('.dft-tooltip-out__content').insertAdjacentHTML('beforeEnd', this._createTooltip());
+				}
+
+				this._close();
+				if (this.device) {
+					document.getElementsByTagName('html')[0].style.overflow = 'hidden';
+				}
+
+				document.body.classList.add('open-tooltip');
+
+				document.body.querySelector('.dft-tooltip-out__content .dft-info__link').addEventListener('touchstart', function() {
+					_this._actionCloseMobile();
+				}, false);
+			},
+			_close: function _close() {
+				var _this2 = this;
+				if (this.vp.mobile && this.device) {
+					this.tooltip.querySelector('.dft-icon-close-fill').addEventListener("touchstart", function(event) {
+						_this2._actionCloseMobile();
+					}, false);
+				}
+
+				else {
+					el.querySelector('.dft-icon-close-fill').addEventListener("click", function(e) {
+						too._destroy();
+						too._setTooltip(false);
+						e.stopPropagation();
+					}, false);
+				}
+				if( $(el).parents(".dft-image-full").length ){
+					el.addEventListener("mouseleave", function(e){
+						too._destroy();
+						too._setTooltip(false);
+						e.stopPropagation();
+					}, false);
+				}
+			},
+			_actionCloseMobile: function _actionCloseMobile() {
+				var _this3 = this;
+				setTimeout(function() {
+					document.body.classList.remove('open-tooltip');
+					_this3._setTooltip(false);
+				}, 250);
+
+				if (this.device) {
+					document.getElementsByTagName('html')[0].style.overflow = '';
+				}
+			},
+			_open: function _open(e) {
+				e.preventDefault();
+				var _this4 = this;
+				this._direction();
+				this._setTooltip(true);
+				if (!el.classList.contains('tooltip-lg')) {
+					el.appendChild(this._cloneTooltip());
+				} else if (el.classList.contains('tooltip-lg')) {
+					el.insertAdjacentHTML('beforeEnd', this._createTooltip());
+				}
+
+				el.querySelector('.dft-tooltip-out__content .dft-info .dft-info__link').addEventListener('click', function() {
+					_this4._destroy();
+				}, false);
+
+				this._close();
+			},
+			_destroy: function _destroy() {
+				if( $(el).parents(".dft-image-full").length){
+					$(el).parents(".dft-image-full").css("overflow","hidden");
+				}
+				if (el.querySelectorAll('.dft-tooltip-out__content').length) {
+					this._removeChildrenIE(el);
+				}
+			},
+			_direction: function _direction() {
+				if (typeof this.options.direction !== "undefined") {
+					switch (this.options.direction) {
+						case "up":
+							el.classList.add('up');
+							break;
+						case "right":
+							el.classList.add('right');
+							break;
+						case "down":
+							el.classList.add('down');
+							break;
+						case "left":
+							el.classList.add('left');
+							break;
+						case "center":
+							el.classList.add('center');
+							break;
+						default:
+							el.classList.add('up');
+							break;
+					}
+
+				} else {
+					el.classList.add('up');
+				}
+			},
+			_setTooltip: function _setTooltip(bool){
+				var tool = {
+					link : this.tooltip.querySelector(".dft-info .dft-info__link"),
+					el : this.tooltip.querySelector(".tooltip-out .external"),
+					legal : this.tooltip.querySelector(".tooltip-out .legalTool")
+				};
+				if(bool){
+					if(this.options.metrica != "" || this.options.metrica != "" )tool.link.setAttribute("onclick", this.options.metrica);
+					tool.link.setAttribute("href", this.options.link);
+					tool.link.setAttribute("target", this.options.target);
+					tool.el.innerText = this.options.name;
+					if (this.options.legal !== undefined){
+						tool.legal.innerText = this.options.legal;
+						tool.legal.style.display = "block";
+					}
+				}
+				else{
+					tool.link.setAttribute("href", "#");
+					tool.link.setAttribute("target", "");
+					tool.el.innerText = "Text";
+					tool.legal.style.display = "none";
+				}
+			},
+			_cloneTooltip: function _cloneTooltip() {
+				if (!el.classList.contains('tooltip-lg')) {
+					this.clone = this.tooltip.cloneNode(true).innerHTML;
+					return this.tooltip.cloneNode(true);
+				} else {
+					return this.tooltip.cloneNode(true);
+				}
+			},
+
+			_createTooltip: function _createTooltip() {
+
+				var html = "<span class=\"dft-tooltip-out__content\">" +
+					"<span class=\"tooltip-out\">" +
+					"<p class=\"tooltip-out__text title \">Unidad Especializada de </br>Atención (UNE) </br>" +
+					"<span class=\"tooltip-subtitle\">Telefono: (55) 1226 4583</span></br>" +
+					"<span class=\"tooltip-subtitle\">" +
+					"Email:" +
+					"<a class=\"tooltip-link\" href=\"mailto:unebanamex@banamex.com\" target=\"_top\">unebanamex@banamex.com</a>" +
+					"</span>" +
+					"</p>" +
+					"<p class=\"tooltip-out__text title \">Comision Nacional para la Proteccion y Defensa de los Usuarios se Servicios Financieros (CONDUSEF)</br>" +
+					"<span class=\"tooltip-subtitle\">Telefono: (55) 5340 0999</span></br> " +
+					"<span class=\"tooltip-subtitle\">Del Interios de la República sin costo: 01(800) 999 8080</span> </br> " +
+					"<span class=\"tooltip-subtitle\">http://www.gob.mx/condusef</span> </br> " +
+					"</p>" +
+					"<p class=\"tooltip-out__text title\">El sitio de CONDUSEF es ajeno a Citibanamex, responsable de sus propios contenidos y mantiene su política de privacidad y seguridad.</p>" +
+					"<div class=\"tooltip-out__text topic\">" +
+					"<div class=\"row dft-info center   \">" +
+					"<div class=\"col-xs-12 dft-info__wrap\">" +
+					"<a href=\"http://www.gob.mx/condusef\" onclick=\"s.tl(this,'o','MX|home-TextoFooter-29062017-Information-irIPAB-ES')\" class=\"dft-info__link\" target=\"_blank\">" +
+					"<p class=\"dft-info__link-text\">Continuar</p>" +
+					"<span class=\"dft-icon-arrow-right dft-info__link-icon\"></span>" +
+					"</a>" +
+					"</div>" +
+					"</div>" +
+					"</div>" +
+					"<span class=\"dft-icon-close-fill\"></span>" +
+					"</span>" +
+					"</span>";
+				return html;
+			},
+			_removeChildrenIE: function _removeChildrenIE(parent) {
+				parent.removeChild(parent.querySelector('.dft-tooltip-out__content'));
+			}
+		};
+
+		too._initialize();
+	}
+};
+
+
+
+		dft_tooltip_out.init();
+
+			}else{
+				window.requestAnimationFrame(footerExist);
+			}
+		};
+		window.requestAnimationFrame(footerExist);
+		footerExist();
+
+
+		$(document).ready(function() {
+		    var heights = $("#modLegal > div").map(function() {
+		        return $(this).height();
+		    }).get(),
+
+		    maxHeight = Math.max.apply(null, heights);
+
+		    $("#modLegal > div").height(maxHeight);
+		});
+	</script>
+</body>
+
+</html>
